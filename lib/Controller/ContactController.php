@@ -127,8 +127,9 @@ class ContactController extends Controller {
 			$this->access = new \OCA\User_LDAP\Access( $connection, $ldapWrapper, $userManager, $helper );
 		}
 		catch( \Error $e ) {
-			$this->access = new \OCA\User_LDAP\Access( $connection, $ldapWrapper, $userManager, $helper, $this->config );
+			$this->access = new \OCA\User_LDAP\Access( $connection, $ldapWrapper, $userManager, $helper, $this->config, \OC::$server->getUserManager() );
 		}
+
 		$this->access->setUserMapper( $userMapping );
 		$this->access->setGroupMapper( $groupMapping );
 		
@@ -319,7 +320,6 @@ class ContactController extends Controller {
 		
 		// order the users
 		usort( $return, [ $this, 'order_ldap_contacts' ] );
-		
 		return $return;
 	}
 				  
